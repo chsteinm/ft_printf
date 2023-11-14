@@ -37,7 +37,8 @@ int print_convert(va_list args, const char *str)
     }
     else
     {
-        ft_putchar_fd(*str, 1);
+        if (ft_putchar_fd(*str, 1) == -1)
+            return (-1);
         i++;
     }
     return (i);
