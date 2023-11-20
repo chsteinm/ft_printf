@@ -6,7 +6,7 @@
 /*   By: chrstein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 22:39:16 by chrstein          #+#    #+#             */
-/*   Updated: 2023/11/13 22:40:39 by chrstein         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:20:28 by chrstein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	print_printable(const char *str)
 	return (i);
 }
 
-int print(va_list args, const char *str)
+int	print(va_list args, const char *str)
 {
 	int	count_printed_char;
 	int	i;
