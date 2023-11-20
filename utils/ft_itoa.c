@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../ft_printf.h"
-#include "ft_printf.h"
+#include "../ft_printf.h"
 
 static void	rec(unsigned int nb, char *ptr, int len)
 {

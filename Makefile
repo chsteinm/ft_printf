@@ -21,7 +21,9 @@ $(PROGRAM): all $(OBJS) main.c
 	$(CC) $(CC_FLAGS) -o $(PROGRAM) main.c $(OBJS) -I.
 
 %.o: %.c
-	cc $(CFLAGS) -I. -c $< -o $@
+	cc $(CFLAGS) -MMD -MP -c $< -o $@
+
+-include $(OBJS:.o=.d)
 
 clean:
 	rm -f *.o utils/*.o

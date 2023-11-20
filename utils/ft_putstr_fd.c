@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../ft_printf.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
-	while (*s)
-		ft_putchar_fd(*s++, fd);
+	int	i;
+
+	i = ft_strlen(s);
+	if (!i)
+		return (0);
+	return (write(fd, s, i));
 }

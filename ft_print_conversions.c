@@ -18,32 +18,28 @@ int	print_str(va_list args)
 
 	str = va_arg(args, char *);
 	if (!str)
-	{
-		ft_putstr_fd("(null)", 1);
-		return (6);
-	}
-	ft_putstr_fd(str, 1);
-	return (ft_strlen((char *)str));
+		return (ft_putstr_fd("(null)", 1));
+	return (ft_putstr_fd(str, 1));
 }
 
 int	print_p(va_list args)
 {
 	int		i;
+	int		i2;
 	size_t	p;
 
 	p = va_arg(args, size_t);
+	i2 = 0;
 	if (p)
 	{
-		i = 2;
-		ft_putstr_fd("0x", 1);
-		i += ft_putnbr_base(p, "0123456789abcdef", 16);
+		i = ft_putstr_fd("0x", 1);
+		i2 = ft_putnbr_base(p, "0123456789abcdef", 16);
+		if (i == -1 || i2 == -1)
+			return (-1);
 	}
 	else
-	{
-		ft_putstr_fd("(nil)", 1);
-		i = 5;
-	}
-	return (i);
+		i = ft_putstr_fd("(nil)", 1);
+	return (i + i2);
 }
 
 int	print_n_base10(va_list args, char c)
@@ -57,8 +53,7 @@ int	print_n_base10(va_list args, char c)
 		str = ft_itoa(va_arg(args, int));
 	if (!str)
 		return (0);
-	i = ft_strlen(str);
-	ft_putstr_fd(str, 1);
+	i = ft_putstr_fd(str, 1);
 	free(str);
 	return (i);
 }

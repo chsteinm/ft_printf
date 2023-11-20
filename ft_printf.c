@@ -14,16 +14,8 @@
 
 int	print_c(va_list args)
 {
-	ft_putchar_fd(va_arg(args, int), 1);
-	return (1);
+	return (ft_putchar_fd(va_arg(args, int), 1));
 }
-
-// void print_error(char c)
-// {
-//     ft_putstr_fd("\nwarning: invalid conversion specifier '", 1);
-//     ft_putchar_fd(c, 1);
-//     ft_putstr_fd("' [-Wformat-invalid-specifier]\n", 1);
-// }
 
 int	print_convert(va_list args, const char *str)
 {
@@ -45,10 +37,7 @@ int	print_convert(va_list args, const char *str)
 	else if (*str == '%')
 		i += write(1, "%%", 1);
 	else
-	{
-		ft_putchar_fd(*str, 1);
-		i++;
-	}
+		i += ft_putchar_fd(*str, 1);
 	return (i);
 }
 
@@ -58,15 +47,41 @@ int	print_printable(const char *str)
 
 	i = -1;
 	while (str[++i] != '%' && str[i])
-		ft_putchar_fd(str[i], 1);
+		if (ft_putchar_fd(str[i], 1) == -1)
+			return (-1);
 	return (i);
+}
+
+int print(va_list args, const char *str)
+{
+	int	count_printed_char;
+	int	i;
+	int	check;
+
+	count_printed_char = 0;
+	while (*str)
+	{
+		if (*str == '%')
+		{
+			check = print_convert(args, str + 1);
+			if (check == -1)
+				return (-1);
+			count_printed_char += check;
+			str += 2;
+		}
+		i = print_printable(str);
+		if (i == -1)
+			return (-1);
+		count_printed_char += i;
+		str += i;
+	}
+	return (count_printed_char);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	args;
 	int		count_printed_char;
-	int		i;
 
 	if (!str)
 		return (-1);
@@ -74,17 +89,7 @@ int	ft_printf(const char *str, ...)
 		return (0);
 	count_printed_char = 0;
 	va_start(args, str);
-	while (*str)
-	{
-		if (*str == '%')
-		{
-			count_printed_char += print_convert(args, str + 1);
-			str += 2;
-		}
-		i = print_printable(str);
-		count_printed_char += i;
-		str += i;
-	}
+	count_printed_char = print(args, str);
 	va_end(args);
 	return (count_printed_char);
 }
