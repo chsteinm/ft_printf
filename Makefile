@@ -1,38 +1,34 @@
 NAME = libftprintf.a
 CC = cc
 CC_FLAGS = -Wall -Wextra -Werror
-SRCS = ft_printf.c ft_print_conversions.c ft_utoa.c ft_putnbr_base.c
-OBJS = $(SRCS:.c=.o)
+SRCS = ft_printf.c ft_print_conversions.c 
+SRCS_U = ft_utoa.c ft_putnbr_base.c \
+		ft_bzero.c ft_itoa.c ft_putchar_fd.c \
+		ft_putnbr_base.c ft_putstr_fd.c ft_strdup.c \
+		ft_utoa.c ft_strlen.c
+OBJS = $(SRCS:.c=.o) $(addprefix utils/,$(SRCS_U:.c=.o))
 HEAD = ft_printf.h
-LIBFT_D = libft/
 PROGRAM = prog
 
 all: $(NAME)
 
-re: fclean all
-
-$(NAME): libft $(OBJS) $(HEAD)
+$(NAME): $(OBJS) $(HEAD)
 	ar rcs $(NAME) $(OBJS)
-
-libft:
-	make -C libft
-	cp libft/libft.a .
-	mv libft.a $(NAME)
 
 program: $(PROGRAM)
 
 $(PROGRAM): all $(OBJS) main.c
-	$(CC) $(CC_FLAGS) -o $(PROGRAM) main.c $(OBJS) -I ./ -I $(LIBFT_D)
+	$(CC) $(CC_FLAGS) -o $(PROGRAM) main.c $(OBJS) -I.
 
 %.o: %.c
-	$(CC) $(CC_FLAGS) -o $@ -c $< -I ./ -I $(LIBFT_D)
+	cc $(CFLAGS) -I. -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make clean -C libft
+	rm -f *.o utils/*.o
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
 
-.PHONY: all clean fclean re libft
+re: fclean all
+
+.PHONY: all clean fclean re
