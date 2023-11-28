@@ -12,7 +12,7 @@ PROGRAM = prog
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEAD)
+$(NAME): $(OBJS) $(HEAD) Makefile
 	ar rcs $(NAME) $(OBJS)
 
 program: $(PROGRAM)
@@ -20,13 +20,13 @@ program: $(PROGRAM)
 $(PROGRAM): all $(OBJS) main.c
 	$(CC) $(CC_FLAGS) -o $(PROGRAM) main.c $(OBJS) -I.
 
-%.o: %.c
+%.o: %.c Makefile
 	cc $(CFLAGS) -MMD -MP -c $< -o $@
 
 -include $(OBJS:.o=.d)
 
 clean:
-	rm -f *.o utils/*.o
+	rm -f *.o utils/*.o *.d utils/*.d
 
 fclean: clean
 	rm -f $(NAME)
